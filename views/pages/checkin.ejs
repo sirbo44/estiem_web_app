@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+    <style>
+        #checkin, #checkout{
+            width: 18rem;
+            height: 4rem;
+            margin-top: 2rem;
+            background-color: aquamarine;
+        }
+        #checkin{
+            margin-top: 3rem;
+        }
+    </style>
+<body>
+    <img src="https://placehold.co/340x200" class="img-fluid placeholder mx-auto d-block" alt="Clock to the date">
+    <img src="https://placehold.co/340x200" class="img-fluid placeholder mx-auto d-block" id="logo" alt="Logo"><br>
+    <form action="/checkin" method="post">
+        <label for="firstName">First Name:</label>
+        <input type="text" placeholder="Enter your firstname" name="firstname">
+        <label for="lastName">Last Name:</label>
+        <input type="text" placeholder="Enter your lastname" name="lastname">
+        <label for="email">Email:</label>
+        <input type="email" placeholder="Enter your email" name="email">
+        <button type="submit">CheckIn</button>
+    </form>
+</body>
+<%- include('../partials/script') %>
+<script>  
+
+
+</script>
+</html>

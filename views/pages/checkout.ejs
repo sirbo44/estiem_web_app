@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+    <style>
+        #checkin, #checkout{
+            width: 18rem;
+            height: 4rem;
+            margin-top: 2rem;
+            background-color: aquamarine;
+        }
+        #checkin{
+            margin-top: 3rem;
+        }
+    </style>
+<body>
+    <img src="https://placehold.co/340x200" class="img-fluid placeholder mx-auto d-block" alt="Clock to the date">
+    <img src="https://placehold.co/340x200" class="img-fluid placeholder mx-auto d-block" id="logo" alt="Logo"><br>
+    <video id="camera" autoplay></video>
+    <div id="qr-result">QR Code Data: <span id="qr-data">None</span></div>
+    <div id="message"></div>
+    <p id="location">Location: <span id="location-data">Fetching...</span></p>
+</body>
+<%- include('../partials/script') %>
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+<script>
+    const video = document.getElementById('camera');
+    const message = document.getElementById('message');
+    const qrResult = document.getElementById('qr-data');
+    const QRcodeKey = "<%= QRcodeKey %>"; // Pass the QR code from the server-side
+    const locationData = document.getElementById('location-data');
+    // Access the camera
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+        .then((stream) => {
+            video.srcObject = stream;
+        })
+        .catch((error) => {
+            console.error("Error accessing the camera: ", error);
+        });
+
+    // Create a canvas to capture video frames
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    function scanQRCode() {
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            // Set canvas dimensions to match the video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw the current video frame onto the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Get image data from the canvas
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+            // Use jsQR to detect QR code
+            const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
+            if (qrCode) {
+                qrResult.textContent = qrCode.data; // Display QR code data
+                if (qrResult.textContent == QRcodeKey){
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((position) => {
+                            const { latitude, longitude } = position.coords;
+                            // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                            if (parseFloat(latitude.toFixed(4)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(4)) == '<%= location[1] %>') {
+                                message.textContent = "You have successfully checked in!";
+                                window.location.href = "/success"; // Redirect to check-in page
+                            }
+                            console.log('Latitude: '+ parseFloat(latitude.toFixed(4)) + ', Longitude: ' + parseFloat(longitude.toFixed(4)));
+                            console.log('Expected Latitude: <%= location[0] %>, Expected Longitude: <%= location[1] %>');
+                        })
+                    }
+                }
+                // window.location.href = "/error";
+            }
+        }
+        requestAnimationFrame(scanQRCode); // Keep scanning
+    }
+
+    video.addEventListener('play', scanQRCode);
+</script>
+</html>
