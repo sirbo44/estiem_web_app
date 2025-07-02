@@ -60,9 +60,9 @@
         });
 
     navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        latitude = latitude;
-        longitude = longitude;
+        let { latitude, longitude } = position.coords;
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
         document.getElementById('location-data').textContent = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`; // Display current location
     })
     // Create a canvas to capture video frames
@@ -87,7 +87,7 @@
                 qrResult.textContent = qrCode.data; // Display QR code data
                 if (qrCode.data == '<%= QRcodeKey %>'){
                     if (navigator.geolocation) {
-                        if (parseFloat(latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(2)) == '<%= location[1] %>') {
+                        if (parseFloat(position.coords.latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(position.coords.longitude.toFixed(2)) == '<%= location[1] %>') {
                             message.textContent = "You have successfully checked in!";
                             window.location.href = "/success"; // Redirect to check-in page
                         }
