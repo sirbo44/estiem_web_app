@@ -8,7 +8,7 @@ app.use('/photos', express.static('photos'));
 
 const QRcodeKey = 'Unipi';
 // const location = [37.9417, 23.6532]
-const location =[38.02, 23.73]
+const location =[38.02, 23.74]
 // const location = [38.0537, 23.4853]
 
 
