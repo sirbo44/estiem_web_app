@@ -83,18 +83,12 @@
 
             // Use jsQR to detect QR code
             const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
-            if (qrCode) {
+            if (qrCode && navigator.geolocation) {
                 qrResult.textContent = qrCode.data; // Display QR code data
                 console.log("QR code data:", qrCode.data == '<%= QRcodeKey %>');
-                if (qrCode.data == '<%= QRcodeKey %>'){
-                    if (navigator.geolocation) {
-                        console.log("Coordinates: ", (latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(2)) == '<%= location[1] %>');
-                        console.log("Latitude: ", latitude.toFixed(2), "Longitude: ", longitude.toFixed(2));
-                        if (parseFloat(latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(2)) == '<%= location[1] %>') {
-                            message.textContent = "You have successfully checked in!";
-                            window.location.href = "/success"; // Redirect to check-in page
-                        }
-                    }
+                if ((qrCode.data == '<%= QRcodeKey %>') && (parseFloat(latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(2)) == '<%= location[1] %>')){
+                    message.textContent = "You have successfully checked in!";
+                    window.location.href = "/success"; // Redirect to check-in page
                 }
                 window.location.href = "/error";
             }
