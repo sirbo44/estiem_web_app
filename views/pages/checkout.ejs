@@ -69,7 +69,7 @@
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
 
-    function scanQRCode() {
+    function scanQRCode(lat, long) {
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
             // Set canvas dimensions to match the video
             canvas.width = video.videoWidth;
@@ -88,8 +88,8 @@
                 console.log("QR code data:", qrCode.data == '<%= QRcodeKey %>');
                 if (qrCode.data == '<%= QRcodeKey %>'){
                     if (navigator.geolocation) {
-                        console.log("Coordinates: ", (position.coords.latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(position.coords.longitude.toFixed(2)) == '<%= location[1] %>');
-                        if (parseFloat(position.coords.latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(position.coords.longitude.toFixed(2)) == '<%= location[1] %>') {
+                        console.log("Coordinates: ", (lat.toFixed(2)) == '<%= location[0] %>' && parseFloat(long.toFixed(2)) == '<%= location[1] %>');
+                        if (parseFloat(lat.toFixed(2)) == '<%= location[0] %>' && parseFloat(long.toFixed(2)) == '<%= location[1] %>') {
                             message.textContent = "You have successfully checked in!";
                             window.location.href = "/success"; // Redirect to check-in page
                         }
@@ -101,6 +101,6 @@
         requestAnimationFrame(scanQRCode); // Keep scanning
     }
 
-    video.addEventListener('play', scanQRCode);
+    video.addEventListener('play', scanQRCode(latitude, longitude)); // Start scanning when video plays
 </script>
 </html>
