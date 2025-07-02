@@ -61,16 +61,6 @@
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
             const { latitude, longitude } = position.coords;
-            if (parseFloat(latitude.toFixed(4)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(4)) == '<%= location[1] %>') {
-                if (qrCode) {
-                    qrResult.textContent = qrCode.data; // Display QR code data
-                    if (qrResult.textContent == QRcodeKey){
-                        message.textContent = "You have successfully checked in!";
-                        window.location.href = "/success";
-                    }
-                }
-            }
-            window.location.href = "/error";  
         })
     }
     // Create a canvas to capture video frames
@@ -91,7 +81,16 @@
 
             // Use jsQR to detect QR code
             const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
-            
+            if (parseFloat(latitude.toFixed(4)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(4)) == '<%= location[1] %>') {
+                if (qrCode) {
+                    qrResult.textContent = qrCode.data; // Display QR code data
+                    if (qrResult.textContent == QRcodeKey){
+                        message.textContent = "You have successfully checked in!";
+                        window.location.href = "/success";
+                    }
+                }
+            }
+            window.location.href = "/error"; 
         }
         requestAnimationFrame(scanQRCode); // Keep scanning
     }
