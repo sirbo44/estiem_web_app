@@ -60,9 +60,8 @@
         });
 
     navigator.geolocation.getCurrentPosition((position) => {
-        let { latitude, longitude } = position.coords;
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
         document.getElementById('location-data').textContent = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`; // Display current location
     })
     // Create a canvas to capture video frames
