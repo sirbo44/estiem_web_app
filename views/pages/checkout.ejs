@@ -85,8 +85,10 @@
             const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
             if (qrCode) {
                 qrResult.textContent = qrCode.data; // Display QR code data
+                console.log("QR code data:", qrCode.data == '<%= QRcodeKey %>');
                 if (qrCode.data == '<%= QRcodeKey %>'){
                     if (navigator.geolocation) {
+                        console.log("Coordinates: ", (position.coords.latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(position.coords.longitude.toFixed(2)) == '<%= location[1] %>');
                         if (parseFloat(position.coords.latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(position.coords.longitude.toFixed(2)) == '<%= location[1] %>') {
                             message.textContent = "You have successfully checked in!";
                             window.location.href = "/success"; // Redirect to check-in page
