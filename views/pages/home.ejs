@@ -2,6 +2,12 @@
 <html lang="en">
     <%- include('../partials/head') %>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center all content in the body */
+            background-color: #f4f4f9;
+            color: #333;
+        }
         #checkin, #checkout{
             width: 18rem;
             height: 4rem;
@@ -11,15 +17,51 @@
         #checkin{
             margin-top: 3rem;
         }
+        .clock {
+            margin-top:1rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            color: white;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
     </style>
 <body>
-    <img src="https://placehold.co/340x200" class="img-fluid placeholder mx-auto d-block" alt="Clock to the date">
-    <img src="https://placehold.co/340x200" class="img-fluid placeholder mx-auto d-block" id="logo" alt="Logo"><br>
+    <div class="clock"></div>
+    <img src="/photos/BDT300x179.png" class="img-fluid placeholder mx-auto d-block" id="logo" alt="Logo"><br>
     <a href="/checkin"><button type="button"  id="checkin" class="mx-auto d-block">Check-In</button></a>
     <a href="/checkout"><button type="button"  id="checkout" class="mx-auto d-block">Check-Out</button></a>
 </body>
 <%- include('../partials/script') %>
 <script>  
+    // Set the target date for the countdown
+    const targetDate = new Date("2026-05-01T09:00:00").getTime(); // Replace with your desired date
+
+    // Update the countdown every second
+    const countdownInterval = setInterval(() => {
+        const now = new Date().getTime(); // Get the current time
+        const timeLeft = targetDate - now; // Calculate the time difference
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval); // Stop the countdown when the target date is reached
+            document.querySelector('.clock').textContent = "Countdown Complete!";
+            return;
+        }
+
+        // Calculate days, hours, minutes, and seconds
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        // Display the countdown
+        document.querySelector('.clock').textContent = 
+            `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
 
 
 </script>
