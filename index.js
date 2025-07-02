@@ -7,8 +7,9 @@ app.use(express.urlencoded());
 app.use('/photos', express.static('photos'));
 
 const QRcodeKey = 'Hey guys this is my QR code';
-const location = [37.9417, 23.6532]
+//const location = [37.9417, 23.6532]
 // const location =[38.0248, 23.7368]
+const location = [38.0936, 23.8148]
 
 
 app.get('/', (req, res) => {
