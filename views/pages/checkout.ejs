@@ -84,7 +84,7 @@
             const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
             if (qrCode) {
                 qrResult.textContent = qrCode.data; // Display QR code data
-                if (qrResult.textContent == QRcodeKey){
+                if (qrCode.data == QRcodeKey){
                     if (navigator.geolocation) {
                         if (parseFloat(latitude.toFixed(4)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(4)) == '<%= location[1] %>') {
                             message.textContent = "You have successfully checked in!";
