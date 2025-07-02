@@ -20,6 +20,7 @@
             z-index: 9999; /* Ensure it overlays other elements */
             object-fit: cover; /* Ensure the video covers the screen */
             border: none; /* Remove any borders */
+            display: block;
         }
         .home{
             position: fixed; /* Make the video element fixed */
@@ -53,6 +54,7 @@
     navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
         .then((stream) => {
             video.srcObject = stream;
+            video.play();
         })
         .catch((error) => {
             console.error("Error accessing the camera: ", error);
