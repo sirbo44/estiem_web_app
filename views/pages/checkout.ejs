@@ -62,6 +62,7 @@
 
     navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
+        document.getElementById('location-data').textContent = `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`; // Display current location
     })
     // Create a canvas to capture video frames
     const canvas = document.createElement('canvas');
