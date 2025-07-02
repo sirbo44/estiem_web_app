@@ -85,7 +85,7 @@
                 qrResult.textContent = qrCode.data; // Display QR code data
                 if (qrCode.data == '<%= QRcodeKey %>'){
                     if (navigator.geolocation) {
-                        if (parseFloat(latitude.toFixed(4)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(4)) == '<%= location[1] %>') {
+                        if (parseFloat(latitude.toFixed(2)) == '<%= location[0] %>' && parseFloat(longitude.toFixed(2)) == '<%= location[1] %>') {
                             message.textContent = "You have successfully checked in!";
                             window.location.href = "/success"; // Redirect to check-in page
                         }
